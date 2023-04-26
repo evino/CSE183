@@ -41,7 +41,8 @@ def index():
     # The table must have an edit button to edit a row, and also, a +1 button to increase the count
     # by 1 (this needs to be protected by a signed URL).
     # On top of the table there is a button to insert a new bird.
-    return dict()
+    rows = db(db.bird.user_email == get_user_email()).select()
+    return dict(rows=rows)
 
 
 @action('add', method=["GET", "POST"])
@@ -49,6 +50,24 @@ def index():
 def add():
     form = Form(db.bird, csrf_session=session, formstyle=FormStyleBulma)
     if form.accepted:
+        redirect(URL('index'))
+    return dict(form=form)
+
+
+# This endpoint will be used to edit a row, going to "app/edit/k where k is the row id"
+@action('edit/<bird_id:int>', method=["GET", "POST"])
+@action.uses(db, session, auth.user, 'edit.html')
+def edit(bird_id=None):
+    assert bird_id is not None
+    b = db.bird[bird_id]
+    if b is None:
+        print('Not found')
+        redirect(URL('index'))
+
+    # Edit form
+    form = Form(db.bird, record=b, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
+    if form.accepted:
+        # Update already ahppened
         redirect(URL('index'))
     return dict(form=form)
 

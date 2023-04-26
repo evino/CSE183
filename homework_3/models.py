@@ -32,4 +32,8 @@ db.define_table(
     Field('user_email', default=get_user_email),
 )
 
+db.bird.id.writable = False
+db.bird.user_email.readable = db.bird.user_email.writable = False
+
+
 db.commit()
