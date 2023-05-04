@@ -50,9 +50,22 @@ def index():
     # return dict(rows=rows, url_signer=url_signer)
 
     for row in rows:
-        s = db(db.phones.contact_id == get_user_id()).select()
+        # print(row['id'])
 
-        row["phone_numbers"] = s
+        row["phone_numbers"] = ""
+
+        print(row)
+        s = db(db.phones.contact_id == row['id']).select().as_list()
+        # s = db(db.phones.contact_id == get_user_id()).select().as_list()
+        if len(s) > 0:
+            # print("db", s)
+            for i in s:
+                # print('i:', i['number'])
+                row["phone_numbers"] += (i['number'] + '(' + i['type'] + ')' + ', ')
+
+        # row["phone_numbers"] = s
+            row["phone_numbers"] = row["phone_numbers"].rstrip(', ')
+            print('db:', row["phone_numbers"])
 
 
     return dict(rows=rows, url_signer=url_signer)
