@@ -54,7 +54,7 @@ def index():
 
         row["phone_numbers"] = ""
 
-        print(row)
+        # print(row)
         s = db(db.phones.contact_id == row['id']).select().as_list()
         # s = db(db.phones.contact_id == get_user_id()).select().as_list()
         if len(s) > 0:
@@ -65,15 +65,16 @@ def index():
 
         # row["phone_numbers"] = s
             row["phone_numbers"] = row["phone_numbers"].rstrip(', ')
-            print('db:', row["phone_numbers"])
+            # print('db:', row["phone_numbers"])
 
 
     return dict(rows=rows, url_signer=url_signer)
 
 
 @action('add_contact', method=["GET", "POST"])
+# @action.uses(db, session, auth.user, url_signer.verify(), 'add_contact.html')
 @action.uses(db, session, auth.user, 'add_contact.html')
-def add():
+def add_contact():
     form = Form(db.contact, csrf_session=session, formstyle=FormStyleBulma)
     if form.accepted:
         redirect(URL('index'))
@@ -119,6 +120,26 @@ def delete_contact(contact_id=None):
 #     return dict(rows=rows)
 
 
+@action('add_phone/<contact_id:int>', method=["GET", "POST"])
+@action.uses(db, session, auth.user, url_signer.verify(), 'add_phone.html')
+def add_phone(contact_id=None):
+    assert contact_id is not None
+
+    form = Form([Field('phone'), Field('type')], csrf_session=session,
+      formstyle=FormStyleBulma)
+
+    if form.accepted:
+        print("DEBUG:", form.vars)
+        db.phones.insert(
+            contact_id=contact_id,
+            number=form.vars['phone'],
+            type=form.vars['type']
+        )
+        redirect(URL('edit_phones', contact_id, signer=url_signer))
+
+    return dict(form=form, contact_id=contact_id)
+
+
 
 @action('edit_phones/<contact_id:int>')
 @action.uses(db, session, auth.user, url_signer.verify(), 'edit_phones.html')
@@ -132,7 +153,7 @@ def edit_phones(contact_id=None):
 
     phone_rows = db(db.phones.contact_id == contact_id).select().as_list()
     contact_rows = db(db.contact.id == contact_id).select().as_list()
-    return dict(phone_rows=phone_rows, contact_rows=contact_rows)
+    return dict(phone_rows=phone_rows, contact_rows=contact_rows, contact_id=contact_id, url_signer=url_signer)
 
 
 

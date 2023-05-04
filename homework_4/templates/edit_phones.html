@@ -11,6 +11,12 @@
             <th>Phone</th>
             <th>Kind</th>
         </tr>
+        [[for phone in phone_rows:]]
+        <tr>
+            <td>[[=phone['number'] ]]</td>
+            <td>[[=phone['type'] ]]</td>
+        </tr>
+        [[pass]]
     </table>
 
 
@@ -23,7 +29,8 @@
         </span>
     </a>
 
-    <a class="button has-background-primary has-text-white" href="[[=URL('add_phone')]]">
+
+    <a class="button has-background-primary has-text-white" href="[[=URL('add_phone', contact_id, signer=url_signer)]]">
         <span class="icon">
             <i class="fa fa-fw fa-plus"></i>
         </span>
@@ -31,4 +38,5 @@
             Add Phone Number
         </span>
     </a>
+
 </div>
