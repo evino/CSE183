@@ -33,6 +33,13 @@ db.define_table(
     Field('last_name', requires=IS_NOT_EMPTY())
 )
 
+db.define_table(
+    'phones',
+    Field('contact_id', 'reference contact'),
+    Field('number'),
+    Field('type')
+)
+
 db.contact.id.writable = False
 
 db.contact.id.readable = False

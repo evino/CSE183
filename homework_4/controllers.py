@@ -46,8 +46,15 @@ url_signer = URLSigner(session)
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
     # rows = db(str(db.contact.created_by) == get_user_email()).select()
-    rows = db(db.contact.created_by == get_user_id()).select()
+    rows = db(db.contact.created_by == get_user_id()).select().as_list()
     # return dict(rows=rows, url_signer=url_signer)
+
+    for row in rows:
+        s = db(db.phones.contact_id == get_user_id()).select()
+
+        row["phone_numbers"] = s
+
+
     return dict(rows=rows, url_signer=url_signer)
 
 
@@ -59,11 +66,11 @@ def add():
         redirect(URL('index'))
     return dict(form=form)
 
-@action('edit_contact/<created_by:int>', method=["GET", "POST"])
+@action('edit_contact/<contact_id:int>', method=["GET", "POST"])
 @action.uses(db, session,auth.user, url_signer.verify(), 'edit_contact.html')
-def edit_contact(created_by=None):
-    assert created_by is not None
-    id = db.contact[created_by]
+def edit_contact(contact_id=None):
+    assert contact_id is not None
+    id = db.contact[contact_id]
     if id is None:
         redirect(URL('index'))
     
@@ -76,10 +83,27 @@ def edit_contact(created_by=None):
     return dict(form=form)
 
 
-@action('del_contact/<contact_id:int>')
+@action('delete_contact/<contact_id:int>')
 @action.uses(db, session, url_signer.verify())
-def del_contact(contact_id=None):
+def delete_contact(contact_id=None):
     assert contact_id is not None
     db(db.contact.id == contact_id).delete()
     redirect(URL('index'))
 
+
+
+@action('edit_phones/<contact_id:int>', method=["GET", "POST"])
+@action.uses(db, session, auth.user, url_signer.verify(), 'edit_phones.html')
+def edit_phones(contact_id=None):
+    assert contact_id is not None
+
+    # id = db.phones[contact_id]
+    # if id is None:
+    #     redirect(URL('index'))
+
+    form = Form(db.phones, csrf_session=session, formstyle=FormStyleBulma)
+
+    # form = Form(db.phones, csrf_session=session, formstyle=FormStyleBulma)
+    if form.accepted:
+        redirect(URL('index'))
+    return dict(form=form)
