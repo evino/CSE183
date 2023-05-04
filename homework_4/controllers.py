@@ -92,18 +92,57 @@ def delete_contact(contact_id=None):
 
 
 
-@action('edit_phones/<contact_id:int>', method=["GET", "POST"])
+# @action('edit_phones')
+# @action.uses(db, session, auth.user)
+# def edit_phones(contact_id=None):
+#     # assert contact_id is not None
+
+
+#     # if id is None:
+#     #     print("Is none")
+#     #     redirect(URL('index'))
+
+#     rows = db(db.phones.contact_id == contact_id).select().as_list()
+#     return dict(rows=rows)
+
+
+
+@action('edit_phones/<contact_id:int>')
 @action.uses(db, session, auth.user, url_signer.verify(), 'edit_phones.html')
 def edit_phones(contact_id=None):
     assert contact_id is not None
 
-    # id = db.phones[contact_id]
-    # if id is None:
-    #     redirect(URL('index'))
 
-    form = Form(db.phones, csrf_session=session, formstyle=FormStyleBulma)
-
-    # form = Form(db.phones, csrf_session=session, formstyle=FormStyleBulma)
-    if form.accepted:
+    if id is None:
+        print("Is none")
         redirect(URL('index'))
-    return dict(form=form)
+
+    phone_rows = db(db.phones.contact_id == contact_id).select().as_list()
+    contact_rows = db(db.contact.id == contact_id).select().as_list()
+    return dict(phone_rows=phone_rows, contact_rows=contact_rows)
+
+
+
+
+
+    # rows = db(db.contact.created_by == get_user_id()).select().as_list()
+
+    # return dict(rows)
+    # return dict(form=form)
+
+
+# @action('edit_phones/<contact_id:int>', method=["GET", "POST"])
+# @action.uses(db, session, auth.user, url_signer.verify(), 'edit_phones.html')
+# def edit_phones(contact_id=None):
+#     assert contact_id is not None
+
+#     # id = db.phones[contact_id]
+#     # if id is None:
+#     #     redirect(URL('index'))
+
+#     form = Form(db.phones, csrf_session=session, formstyle=FormStyleBulma)
+
+#     # form = Form(db.phones, csrf_session=session, formstyle=FormStyleBulma)
+#     if form.accepted:
+#         redirect(URL('index'))
+#     return dict(form=form)
