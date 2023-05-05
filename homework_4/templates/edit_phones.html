@@ -10,11 +10,25 @@
         <tr>
             <th>Phone</th>
             <th>Kind</th>
+            <th></th>
         </tr>
         [[for phone in phone_rows:]]
         <tr>
             <td>[[=phone['number'] ]]</td>
             <td>[[=phone['type'] ]]</td>
+            <td>
+                <a class="button has-background-warning" href="[[=URL('edit_phone', contact_id, phone['id'], signer=url_signer)]]">
+                    <span class="icon">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </span>
+                </a>
+
+                <a class="button has-background-danger" href="[[=URL('delete_phone', contact_id, phone['id'], signer=url_signer)]]">
+                    <span class="icon has-text-white">
+                      <i class="fa fa-trash"></i>
+                    </span>
+                </a>
+            </td>
         </tr>
         [[pass]]
     </table>

@@ -129,7 +129,7 @@ def add_phone(contact_id=None):
       formstyle=FormStyleBulma)
 
     if form.accepted:
-        print("DEBUG:", form.vars)
+        # print("DEBUG:", form.vars)
         db.phones.insert(
             contact_id=contact_id,
             number=form.vars['phone'],
@@ -153,8 +153,74 @@ def edit_phones(contact_id=None):
 
     phone_rows = db(db.phones.contact_id == contact_id).select().as_list()
     contact_rows = db(db.contact.id == contact_id).select().as_list()
+
+
     return dict(phone_rows=phone_rows, contact_rows=contact_rows, contact_id=contact_id, url_signer=url_signer)
 
+
+@action('edit_phone/<contact_id:int>/<phone_id:int>', method=["GET", "POST"])
+@action.uses(db, session, auth.user, url_signer.verify(), 'edit_phone.html')
+def edit_phone(contact_id=None, phone_id=None):
+    assert contact_id is not None
+    assert phone_id is not None
+
+    row_id = db.phones[phone_id]
+    if row_id is None:
+        redirect(URL('index'))
+    
+
+    if phone_id is None or contact_id is None:
+        print("Is none")
+        redirect(URL('index'))
+    
+    # print(db.phones.id)
+
+    # row = db(db.phones.id == phone_id).select()  # Nubmer to edit
+    # print("ROW:", row_id)
+    # redirect(URL('edit_phones', contact_id, signer=url_signer))
+
+    form = Form(db.phones, record=row_id, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
+
+    phone_rows = db(db.phones.contact_id == contact_id).select().as_list()
+    contact_rows = db(db.contact.id == contact_id).select().as_list()
+
+    # form = Form([Field('phone'), Field('type')], csrf_session=session,
+    #   formstyle=FormStyleBulma)
+
+    if form.accepted:
+        # Update already happened
+        # redirect(URL('index'))
+
+        # db.phones.update(
+        #     number=form.vars['phone'],
+        #     type=form.vars['type']
+        # )
+
+        redirect(URL('edit_phones', contact_id, signer=url_signer))
+    return dict(form=form, contact_id=contact_id, contact_rows=contact_rows, phone_rows=phone_rows, url_signer=url_signer)
+
+    # return dict()
+
+
+@action('delete_phone/<contact_id:int>/<phone_id:int>')
+@action.uses(db, session, auth.user, url_signer.verify(), 'edit_phones.html')
+def delete_phone(contact_id=None, phone_id=None):
+    # print("IN FUNC")
+    assert contact_id is not None
+    assert phone_id is not None
+
+    if phone_id is None or contact_id is None:
+        print("Is none")
+        redirect(URL('index'))
+    
+    # print(db.phones.id)
+
+    db(db.phones.id == phone_id).delete()
+    redirect(URL('edit_phones', contact_id, signer=url_signer))
+
+    return dict()
+
+    # return dict(id)
 
 
 

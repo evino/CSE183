@@ -36,8 +36,8 @@ db.define_table(
 db.define_table(
     'phones',
     Field('contact_id', 'reference contact'),
-    Field('number'),
-    Field('type')
+    Field('number', requires=IS_NOT_EMPTY()),
+    Field('type', requires=IS_NOT_EMPTY())
 )
 
 db.contact.id.writable = False
@@ -45,6 +45,10 @@ db.contact.id.writable = False
 db.contact.id.readable = False
 
 db.contact.created_by.readable = db.contact.created_by.writable = False
+
+db.phones.id.writable = db.phones.id.readable = False
+
+db.phones.contact_id.writable = db.phones.contact_id.readable = False
 
 
 db.commit()
