@@ -9,6 +9,8 @@ let init = (app) => {
     // This is the Vue data.
     app.data = {
         // Complete as you see fit.
+        query: "",
+        results: []
     };    
     
     app.enumerate = (a) => {
@@ -18,9 +20,21 @@ let init = (app) => {
         return a;
     };    
 
+
+    app.get_users = function() {
+        if (q.length >= 1) {
+        axios.get(get_users_url, {params: {q: query}})
+            .then(function(result) {
+                app.vue.results = result.data.results;
+            })
+        } else {
+            app.vue.results = []
+        }
+    }
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
+        get_users: app.get_users,
     };
 
     // This creates the Vue instance.

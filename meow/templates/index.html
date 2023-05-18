@@ -19,7 +19,7 @@
       
       <div class="field">
         <p class="control has-icons-right">
-          <input class="input" type="text" placeholder="Search users">
+          <input class="input" type="text" placeholder="Search users" v-model="query" @change="get_users">
           <span class="icon is-small is-right clickable">
             <i class="fa fa-times-circle"></i>
           </span>

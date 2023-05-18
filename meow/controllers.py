@@ -47,13 +47,24 @@ def index():
         # COMPLETE: return here any signed URLs you need.
         get_users_url = URL('get_users', signer=url_signer),
         follow_url=URL('set_follow', signer=url_signer),
+        unfollow_url=URL('set_unfollow', signer=url_signer)
     )
 
 @action("get_users")
 @action.uses(db, auth.user)
 def get_users():
-    # Implement. 
-    return dict()
+    # Implement.
+
+    q = request.params.get('q')
+    results = [q + 'str']
+    return dict(results=results)
+
+    print('In get users!')
+    rows = db(db.auth_user).select().as_list()
+    print(rows)
+    for row in rows:
+        print(row['username'])
+    return dict(rows=rows)
 
 
 @action("set_follow", method="POST")
