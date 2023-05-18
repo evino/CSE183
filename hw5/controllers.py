@@ -46,8 +46,8 @@ def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
         get_users_url = URL('get_users', signer=url_signer),
-        follow_url=URL('set_follow', signer=url_signer),
-        unfollow_url=URL('set_unfollow', signer=url_signer)
+        set_follow_url=URL('set_follow', signer=url_signer),
+        set_unfollow_url=URL('set_unfollow', signer=url_signer)
     )
 
 @action("get_users")
@@ -69,12 +69,25 @@ def get_users():
 
 @action("set_follow", method="POST")
 @action.uses(db, auth.user, url_signer.verify())
-def set_follow(username=None, follower=None):
-    assert username is not None
-    assert follower is not None
+# def set_follow(username=None, follower=None):
+def set_follow():
+    # assert username is not None
+    # assert follower is not None
 
-    username = db.followers[username]
-    follower = db.followers[follower]
-    print(username)
+    print('Controller called')
+
+    req = request.json['id']
+    print('The JSON:', req)
+    print(auth.user)
+
+    # req = request.json.get.id
+    # print(req)
+    db.follow.insert(following_id=req)
+
+    # username = db.followers[username]
+    # follower = db.followers[follower]
+
+    # print(username)
     # Implement. 
+    # Use request.json.get.id to get ID's insert into follower db
     return "ok"

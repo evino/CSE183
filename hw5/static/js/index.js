@@ -21,14 +21,39 @@ let init = (app) => {
     };    
 
 
+    // app.follow = funct () {
+    //  axios.post(set_follow_url).then(function(response)) {
+        // console.log(response)
+        // app.data.query =
+
+    // }
+
+
     app.get_users = function() {
         // app.data.rows = []
         // console.log(app.data.rows)
-        console.log('at top')
+        console.log('top of get_user()')
         axios.get(get_users_url).then(function(response) {
-            console.log(response.data.rows);
+            // console.log(response.data.rows);
             app.data.rows = response.data.rows
         });
+    };
+
+    app.set_follow = function (row_id) {
+        console.log('set_follow() called')
+        console.log('row id ' + row_id)
+
+        // axios.post(set_follow_url).then(function() {
+        //     console.log('in post')
+        //     console.log(response);
+        // });
+        axios.post(set_follow_url,
+            {
+                id: row_id
+            }).then(function (response) {
+                console.log('in post');
+                // console.log(response);
+            });
     };
 
     // Have func to strip users out of rows?
@@ -36,7 +61,8 @@ let init = (app) => {
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
-        get_users: app.get_users
+        get_users: app.get_users,
+        set_follow: app.set_follow,
     };
 
     // This creates the Vue instance.
@@ -48,7 +74,7 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        console.log("At init func")
+        console.log("Top of init()")
         app.get_users()
         // Put here any initialization code.
     };
@@ -59,5 +85,5 @@ let init = (app) => {
 
 // This takes the (empty) app object, and initializes it,
 // putting all the code in it. 
-console.log('Top level??')
+console.log('Top level')
 init(app);

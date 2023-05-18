@@ -10,6 +10,9 @@
 <div class="section" id="vue-target" v-cloak>
   <!-- Put here your Vue.js template -->
 
+
+
+
   <div class="columns">
     <div class="column">
       Feed. 
@@ -26,29 +29,31 @@
         </p>
       </div>
 
-      <div class="field has-addons">
-        <p class="control">
-          <button class="button">
-            <span>{{rows[1]["username"]}}</span>
-            <span>{{rows[2]["username"]}}</span>
-
-            <!-- iteratre over user_names -->
-
-          </button>
-        </p>
-        <p class="control">
-          <button class="button is-success is-outlined">
-            <span class="icon is-small">
-              <i class="fa fa-check "></i>
-            </span>
-            <span>Follow/Unfollow</span>
-            <!-- Iterat -->
-          </button>
-        </p>
+      <!-- iteratre over user_names -->
+      <div v-for="r in rows">
+        <div class="field has-addons">
+          <p class="control">
+            <button class="button">
+              <span>
+                {{r['username']}}
+              </span>
+            </button>
+          </p>
+          <p class="control">
+            <button class="button is-success is-outlined" @click="set_follow(r['id'])">
+              <span class="icon is-small">
+                <i class="fa fa-check "></i>
+              </span>
+              <span>Follow/Unfollow</span>
+            </button>
+          </p>
+        </div>
       </div>
 
     </div>
   </div>
+
+
 
 </div>
 
@@ -57,7 +62,7 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
   let get_users_url = "[[=XML(get_users_url)]]";
-  let follow_url = "[[=XML(follow_url)]]";
+  let set_follow_url = "[[=XML(set_follow_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]
