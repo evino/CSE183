@@ -59,11 +59,11 @@ def get_users():
     # results = [q + 'str']
     # return dict(results=results)
 
-    print('In get users!')
+    # print('In get users!')
     rows = db(db.auth_user).select().as_list()
-    print(rows)
-    for row in rows:
-        print(row['username'])
+    # print(rows)
+    # for row in rows:
+    #     print(row['username'])
     return dict(rows=rows)
 
 

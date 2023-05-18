@@ -30,6 +30,9 @@ let init = (app) => {
             app.data.rows = response.data.rows
         });
     };
+
+    // Have func to strip users out of rows?
+
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
