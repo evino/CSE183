@@ -98,3 +98,15 @@ def set_follow():
     # Implement. 
     # Use request.json.get.id to get ID's insert into follower db
     return "ok"
+
+@action("set_unfollow", method="POST")
+@action.uses(db, auth.user, url_signer.verify())
+def set_unfollow():
+    # assert follower_id is not None
+    # assert following_id is not None
+
+
+    print(request.json['id'])
+
+    db(db.follow.follower_id == get_user_id() and db.follow.following_id == request.json['id']).delete()
+    return "ok"

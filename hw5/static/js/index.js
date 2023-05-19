@@ -75,6 +75,17 @@ let init = (app) => {
     // Have func to strip users out of rows?
 
 
+    app.set_unfollow = function (row_id) {
+        axios.post(set_unfollow_url,
+            {
+                id: row_id
+            }
+            ).then(function (response) {
+            app.get_following()
+        });
+    }
+
+
     app.is_following = function(id) {
         console.log("Searching for " + id + "in list");
 
@@ -108,6 +119,7 @@ let init = (app) => {
         get_users: app.get_users,
         get_following: app.get_following,
         set_follow: app.set_follow,
+        set_unfollow: app.set_unfollow,
         is_following: app.is_following,
     };
 
