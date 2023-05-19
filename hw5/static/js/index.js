@@ -11,6 +11,8 @@ let init = (app) => {
         // Complete as you see fit.
         query: "",
         rows: [],
+        following: [],
+        // foll: [],
     };    
     
     app.enumerate = (a) => {
@@ -34,14 +36,24 @@ let init = (app) => {
         // console.log(app.data.rows)
         console.log('top of get_user()')
         axios.get(get_users_url).then(function(response) {
-            // console.log(response.data.rows);
+            console.log('rows' + response.data.rows);
             app.data.rows = response.data.rows
         });
     };
 
+    app.get_following = function() {
+        axios.get(get_following_url).then(function(response) {
+            console.log("IN GET FOLLOWING: " + response.data.following)
+            app.data.foll = response.data.following
+            console.log('FOLLOWING ID: ' + app.data.foll[0]['following_id']);
+        })
+    }
+
     app.set_follow = function (row_id) {
         console.log('set_follow() called')
         console.log('row id ' + row_id)
+        // app.data.following.push(row_id)
+        console.log(app.data.following)
 
         // axios.post(set_follow_url).then(function() {
         //     console.log('in post')
@@ -52,17 +64,40 @@ let init = (app) => {
                 id: row_id
             }).then(function (response) {
                 console.log('in post');
+                console.log('Now adding ' + row_id + ' to following_list');
+                app.get_following()
+                console.log('now: ' + app.data.following)
+                
                 // console.log(response);
             });
     };
 
     // Have func to strip users out of rows?
 
+
+    app.is_following = function(id) {
+        console.log("Searching for " + id + "in list");
+
+        // if (id in app.data.following) {
+        // if (app.data.following.includes(id)) {
+        //     console.log(id +'in list')
+        //     return true;
+        // }
+
+        console.log('test',app.data.following)
+
+        console.log(id + " Not in list");
+
+        return false;
+    };
+
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
         get_users: app.get_users,
+        get_following: app.get_following,
         set_follow: app.set_follow,
+        is_following: app.is_following,
     };
 
     // This creates the Vue instance.
@@ -76,6 +111,9 @@ let init = (app) => {
     app.init = () => {
         console.log("Top of init()")
         app.get_users()
+        app.get_following()
+        // app.data.foll = response.data.following
+        // console.log('folling ' + app.data.foll)
         // Put here any initialization code.
     };
 

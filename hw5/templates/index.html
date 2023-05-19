@@ -31,6 +31,12 @@
 
       <!-- iteratre over user_names -->
       <div v-for="r in rows">
+        <div v-if="is_following(r['id'])">
+          Following
+        </div>
+        <div v-else>
+          Not follwoing
+        </div>
         <div class="field has-addons">
           <p class="control">
             <button class="button">
@@ -62,6 +68,7 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
   let get_users_url = "[[=XML(get_users_url)]]";
+  let get_following_url = "[[=XML(get_following_url)]]";
   let set_follow_url = "[[=XML(set_follow_url)]]";
 </script>
 <script src="js/index.js"></script>

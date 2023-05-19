@@ -32,7 +32,7 @@ from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
-from .models import get_username
+from .models import get_username, get_user_id
 
 url_signer = URLSigner(session)
 
@@ -46,6 +46,7 @@ def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
         get_users_url = URL('get_users', signer=url_signer),
+        get_following_url = URL('get_following', signer=url_signer),
         set_follow_url=URL('set_follow', signer=url_signer),
         set_unfollow_url=URL('set_unfollow', signer=url_signer)
     )
@@ -61,10 +62,16 @@ def get_users():
 
     # print('In get users!')
     rows = db(db.auth_user).select().as_list()
-    # print(rows)
-    # for row in rows:
-    #     print(row['username'])
     return dict(rows=rows)
+
+@action("get_following")
+@action.uses(db, auth.user)
+def get_following():
+    # print(get_user_id())
+    user_id = get_user_id()
+    following = db(db.follow.follower_id == user_id).select().as_list()
+    print('db:', following)
+    return dict(following=following)
 
 
 @action("set_follow", method="POST")
