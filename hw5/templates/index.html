@@ -30,42 +30,48 @@
         </p>
       <!-- </div> -->
 
-      <div v-if="searching">
+      <template v-if="searching">
         <div v-for="r in results">
           <div v-if="r.username.startsWith(query)">
             <div class="field has-addons">
+
+              <p class="control">
               <button class="button">
                 <span>
                   {{r['username']}}
 
-                  <div v-if="!is_following(r['id'])">
+                  <template v-if="!is_following(r['id'])">
                     <button class="button is-success is-outlined" @click="set_follow(r['id'])">
                       <span class="icon is-small">
                         <i class="fa fa-check "></i>
                       </span>
                       <span>Follow</span>
                     </button>
-                  </div>
-                  <div v-if="is_following(r['id'])">
+                  </template>
+                  <!-- <div v-else-if="is_following(r['id'])"> -->
+                  <template v-else>
                     <button class="button is-danger is-outlined" @click="set_unfollow(r['id'])">
                       <span class="icon is-small">
                         <i class="fa fa-times "></i>
                       </span>
                       <span>Unfollow</span>
                     </button>
-                  </div>
+                  </template>
 
 
 
                 </span>
               </button>
+              </p>
+
+
             </div>
           </div>
         </div>
-      </div>
+      </template>
 
       <!-- iteratre over user_names -->
-      <div v-if="!searching">
+      <template v-else-if="!searching">
         <div v-for="r in rows">
 
         <div class="field has-addons">
@@ -96,7 +102,7 @@
           </p>
         </div>
         </div>
-      </div>
+      </template>
 
     </div>
   </div>
