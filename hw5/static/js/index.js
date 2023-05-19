@@ -10,8 +10,10 @@ let init = (app) => {
     app.data = {
         // Complete as you see fit.
         query: "",
+        results: [],
         rows: [],
         following: [],
+        searching: false,
         // foll: [],
     };    
     
@@ -113,6 +115,31 @@ let init = (app) => {
         return false;
     };
 
+
+    app.search = function () {
+        app.data.searching = true
+        console.log("SEARCH")
+        console.log("QUEURY:", app.vue.query)
+        if (app.data.query.length >= 1) {
+            axios.get(search_url, {params: {q: app.data.query}})
+            .then(function (result) {
+                // console.log("RES:", result.data.results['username'])
+
+                app.data.results = result.data.results;
+            });
+        } else {
+            // app.data.results = [];
+            app.clear_search()
+        }
+    }
+
+    app.clear_search = function () {
+        app.data.searching = false
+        app.data.query = ""
+        app.data.results = []
+    }
+
+
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
@@ -121,6 +148,8 @@ let init = (app) => {
         set_follow: app.set_follow,
         set_unfollow: app.set_unfollow,
         is_following: app.is_following,
+        search: app.search,
+        clear_search: app.clear_search,
     };
 
     // This creates the Vue instance.
@@ -133,6 +162,7 @@ let init = (app) => {
     // And this initializes it.
     app.init = () => {
         console.log("Top of init()")
+        // app.search()
         app.get_users()
         app.get_following()
         // app.data.foll = response.data.following

@@ -22,15 +22,51 @@
       
       <div class="field">
         <p class="control has-icons-right">
-          <input class="input" type="text" placeholder="Search users">
-          <span class="icon is-small is-right clickable">
+          <input class="input" type="text" placeholder="Search users" v-model="query" @keyup="search">
+          <span class="icon is-small is-right clickable" @click="clear_search">
             <i class="fa fa-times-circle"></i>
           </span>
+
         </p>
+      <!-- </div> -->
+
+      <div v-if="searching">
+        <div v-for="r in results">
+          <div v-if="r.username.startsWith(query)">
+            <div class="field has-addons">
+              <button class="button">
+                <span>
+                  {{r['username']}}
+
+                  <div v-if="!is_following(r['id'])">
+                    <button class="button is-success is-outlined" @click="set_follow(r['id'])">
+                      <span class="icon is-small">
+                        <i class="fa fa-check "></i>
+                      </span>
+                      <span>Follow</span>
+                    </button>
+                  </div>
+                  <div v-if="is_following(r['id'])">
+                    <button class="button is-danger is-outlined" @click="set_unfollow(r['id'])">
+                      <span class="icon is-small">
+                        <i class="fa fa-times "></i>
+                      </span>
+                      <span>Unfollow</span>
+                    </button>
+                  </div>
+
+
+
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- iteratre over user_names -->
-      <div v-for="r in rows">
+      <div v-if="!searching">
+        <div v-for="r in rows">
 
         <div class="field has-addons">
           <p class="control">
@@ -59,9 +95,11 @@
             </div>
           </p>
         </div>
+        </div>
       </div>
 
     </div>
+  </div>
   </div>
 
 
@@ -72,6 +110,7 @@
 [[block page_scripts]]
 <!-- Loads the index-specific js for Vue -->
 <script>
+  let search_url = "[[=XML(search_url)]]";
   let get_users_url = "[[=XML(get_users_url)]]";
   let get_following_url = "[[=XML(get_following_url)]]";
   let set_follow_url = "[[=XML(set_follow_url)]]";

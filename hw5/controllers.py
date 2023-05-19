@@ -45,6 +45,7 @@ MAX_RESULTS = 20 # Maximum number of returned meows.
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
+        search_url = URL('search', signer=url_signer),
         get_users_url = URL('get_users', signer=url_signer),
         get_following_url = URL('get_following', signer=url_signer),
         set_follow_url=URL('set_follow', signer=url_signer),
@@ -110,3 +111,12 @@ def set_unfollow():
 
     db(db.follow.follower_id == get_user_id() and db.follow.following_id == request.json['id']).delete()
     return "ok"
+
+@action("search")
+@action.uses(db, auth.user, url_signer.verify())
+def search():
+    print("SEARCH CONTROLLER CALLED")
+    q = request.params.get("q")
+    print('Q:', q)
+    results = db(db.auth_user).select().as_list()
+    return dict(results=results)
