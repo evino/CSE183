@@ -14,6 +14,7 @@ let init = (app) => {
         rows: [],
         following: [],
         searching: false,
+        row_len: 0
         // foll: [],
     };    
     
@@ -40,6 +41,7 @@ let init = (app) => {
         axios.get(get_users_url).then(function(response) {
             console.log('rows' + response.data.rows);
             app.data.rows = response.data.rows
+            app.data.row_len = app.data.rows.length
         });
     };
 
@@ -47,6 +49,8 @@ let init = (app) => {
         axios.get(get_following_url).then(function(response) {
             console.log("IN GET FOLLOWING: " + response.data.following)
             app.data.following = response.data.following
+            console.log("LENGT", app.data.row_len)
+
             // console.log('FOLLOWING ID: ' + app.data.foll[0]['following_id']);
         })
     }

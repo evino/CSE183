@@ -83,8 +83,11 @@
             </button>
           </p>
           <p class="control">
+            <!-- <div v-if="!is_following(r['id'])"> -->
             <div v-if="!is_following(r['id'])">
+              <!-- <button class="button is-success is-outlined" @click="set_follow(r['id'])"> -->
               <button class="button is-success is-outlined" @click="set_follow(r['id'])">
+
                 <span class="icon is-small">
                   <i class="fa fa-check "></i>
                 </span>
@@ -92,7 +95,9 @@
               </button>
             </div>
             <div v-else>
+              <!-- <button class="button is-danger is-outlined" @click="set_unfollow(r['id'])"> -->
               <button class="button is-danger is-outlined" @click="set_unfollow(r['id'])">
+
                 <span class="icon is-small">
                   <i class="fa fa-times "></i>
                 </span>
