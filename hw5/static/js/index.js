@@ -44,8 +44,8 @@ let init = (app) => {
     app.get_following = function() {
         axios.get(get_following_url).then(function(response) {
             console.log("IN GET FOLLOWING: " + response.data.following)
-            app.data.foll = response.data.following
-            console.log('FOLLOWING ID: ' + app.data.foll[0]['following_id']);
+            app.data.following = response.data.following
+            // console.log('FOLLOWING ID: ' + app.data.foll[0]['following_id']);
         })
     }
 
@@ -83,6 +83,17 @@ let init = (app) => {
         //     console.log(id +'in list')
         //     return true;
         // }
+
+        console.log('db', app.data.following[0]);
+        // for (follower in app.data.following) {
+        for (ind = 0; ind < app.data.following.length; ind += 1) {
+            console.log('Follower: ' + app.data.following[ind]['following_id']);
+            // if (id == app.data.following[ind['following_id']]) {
+            if (id == app.data.following[ind]['following_id']) {
+                console.log('IT EXISTS!');
+                return true;
+            }
+        }
 
         console.log('test',app.data.following)
 
