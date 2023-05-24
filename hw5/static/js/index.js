@@ -14,8 +14,10 @@ let init = (app) => {
         rows: [],
         following: [],
         searching: false,
-        row_len: 0
-        // foll: [],
+        row_len: 0,
+        content: "",
+        debug: "debug"
+        // content: [],
     };    
     
     app.enumerate = (a) => {
@@ -37,9 +39,9 @@ let init = (app) => {
     app.get_users = function() {
         // app.data.rows = []
         // console.log(app.data.rows)
-        console.log('top of get_user()')
+        // console.log('top of get_user()')
         axios.get(get_users_url).then(function(response) {
-            console.log('rows' + response.data.rows);
+            // console.log('rows' + response.data.rows);
             app.data.rows = response.data.rows
             app.data.row_len = app.data.rows.length
         });
@@ -47,19 +49,19 @@ let init = (app) => {
 
     app.get_following = function() {
         axios.get(get_following_url).then(function(response) {
-            console.log("IN GET FOLLOWING: " + response.data.following)
+            // console.log("IN GET FOLLOWING: " + response.data.following)
             app.data.following = response.data.following
-            console.log("LENGT", app.data.row_len)
+            // console.log("LENGT", app.data.row_len)
 
             // console.log('FOLLOWING ID: ' + app.data.foll[0]['following_id']);
         })
     }
 
     app.set_follow = function (row_id) {
-        console.log('set_follow() called')
-        console.log('row id ' + row_id)
+        // console.log('set_follow() called')
+        // console.log('row id ' + row_id)
         // app.data.following.push(row_id)
-        console.log(app.data.following)
+        // console.log(app.data.following)
 
         // axios.post(set_follow_url).then(function() {
         //     console.log('in post')
@@ -69,10 +71,10 @@ let init = (app) => {
             {
                 id: row_id
             }).then(function (response) {
-                console.log('in post');
-                console.log('Now adding ' + row_id + ' to following_list');
+                // console.log('in post');
+                // console.log('Now adding ' + row_id + ' to following_list');
                 app.get_following()
-                console.log('now: ' + app.data.following)
+                // console.log('now: ' + app.data.following)
                 
                 // console.log(response);
             });
@@ -93,7 +95,7 @@ let init = (app) => {
 
 
     app.is_following = function(id) {
-        console.log("Searching for " + id + "in list");
+        // console.log("Searching for " + id + "in list");
 
         // if (id in app.data.following) {
         // if (app.data.following.includes(id)) {
@@ -101,20 +103,20 @@ let init = (app) => {
         //     return true;
         // }
 
-        console.log('db', app.data.following[0]);
+        // console.log('db', app.data.following[0]);
         // for (follower in app.data.following) {
         for (ind = 0; ind < app.data.following.length; ind += 1) {
-            console.log('Follower: ' + app.data.following[ind]['following_id']);
+            // console.log('Follower: ' + app.data.following[ind]['following_id']);
             // if (id == app.data.following[ind['following_id']]) {
             if (id == app.data.following[ind]['following_id']) {
-                console.log('IT EXISTS!');
+                // console.log('IT EXISTS!');
                 return true;
             }
         }
 
-        console.log('test',app.data.following)
+        // console.log('test',app.data.following)
 
-        console.log(id + " Not in list");
+        // console.log(id + " Not in list");
 
         return false;
     };
@@ -122,8 +124,8 @@ let init = (app) => {
 
     app.search = function () {
         app.data.searching = true
-        console.log("SEARCH")
-        console.log("QUEURY:", app.vue.query)
+        // console.log("SEARCH")
+        // console.log("QUEURY:", app.vue.query)
         if (app.data.query.length >= 1) {
             axios.get(search_url, {params: {q: app.data.query}})
             .then(function (result) {
@@ -143,6 +145,26 @@ let init = (app) => {
         app.data.results = []
     }
 
+    app.post_meow = function (post_content) {
+        console.log('MEOW POST')
+
+        axios.post(post_meow_url,
+        {
+            content: post_content
+        }
+        ).then(function (response) {
+            console.log('in post');
+
+            app.data.content = response.data.content;
+        });
+        // To-Do:
+        // Want to do a post-request
+        // storing username, timestamp,
+        // and content in DB, while also
+        // displaying on page.
+
+    }
+
 
     // This contains all the methods.
     app.methods = {
@@ -154,6 +176,7 @@ let init = (app) => {
         is_following: app.is_following,
         search: app.search,
         clear_search: app.clear_search,
+        post_meow: app.post_meow,
     };
 
     // This creates the Vue instance.

@@ -49,7 +49,8 @@ def index():
         get_users_url = URL('get_users', signer=url_signer),
         get_following_url = URL('get_following', signer=url_signer),
         set_follow_url=URL('set_follow', signer=url_signer),
-        set_unfollow_url=URL('set_unfollow', signer=url_signer)
+        set_unfollow_url=URL('set_unfollow', signer=url_signer),
+        post_meow_url=URL('post_meow', signer=url_signer),
     )
 
 @action("get_users")
@@ -120,3 +121,15 @@ def search():
     print('Q:', q)
     results = db(db.auth_user).select().as_list()
     return dict(results=results)
+
+
+@action("post_meow", method="POST")
+@action.uses(db, auth.user, url_signer.verify())
+def post_meow():
+    print('post_meow controller called')
+    print('request:', request)
+    req = request.json['id']
+    print('ID:', req)
+    db.meow.insert
+
+    return "ok"

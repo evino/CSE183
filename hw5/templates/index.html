@@ -15,7 +15,60 @@
 
   <div class="columns">
     <div class="column">
-      Feed. 
+      <!-- Feed.  -->
+      <div class="field">
+        <textarea class="textarea" placeholder="What's on your mind?" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-link" @click="post_meow(debug)">
+            Publish!
+          </button>
+        </div>
+      </div>
+     
+      <div class="box">
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <a class="level-item" aria-label="reply">
+              <span class="icon is-small">
+                <i class="fa fa-user"></i>
+              </span>
+              <span class="ml-2">Grizabella</span>
+            </a>
+          </div>
+          <div class="level-right">
+            <span class="level-item">
+              One minute ago
+            </span>
+          </div>
+        </nav>
+        <div class="content">
+          I love tuna fish. 
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <a class="level-item" aria-label="reply">
+              <span class="icon is-small">
+                <i class="fa fa-reply" aria-hidden="true"></i>
+              </span>
+              <span class="ml-1">4</span>
+            </a>
+            <a class="level-item" aria-label="retweet">
+              <span class="icon is-small">
+                <i class="fa fa-retweet" aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+        </nav>
+      </div>
+   
+   
+
+
+
+
+
     </div>
 
     <div class="column is-one-third has-background-light">
@@ -83,11 +136,8 @@
             </button>
           </p>
           <p class="control">
-            <!-- <div v-if="!is_following(r['id'])"> -->
             <div v-if="!is_following(r['id'])">
-              <!-- <button class="button is-success is-outlined" @click="set_follow(r['id'])"> -->
               <button class="button is-success is-outlined" @click="set_follow(r['id'])">
-
                 <span class="icon is-small">
                   <i class="fa fa-check "></i>
                 </span>
@@ -95,9 +145,7 @@
               </button>
             </div>
             <div v-else>
-              <!-- <button class="button is-danger is-outlined" @click="set_unfollow(r['id'])"> -->
               <button class="button is-danger is-outlined" @click="set_unfollow(r['id'])">
-
                 <span class="icon is-small">
                   <i class="fa fa-times "></i>
                 </span>
@@ -112,10 +160,10 @@
     </div>
   </div>
   </div>
-
-
-
 </div>
+
+
+
 
 
 [[block page_scripts]]
@@ -126,6 +174,7 @@
   let get_following_url = "[[=XML(get_following_url)]]";
   let set_follow_url = "[[=XML(set_follow_url)]]";
   let set_unfollow_url = "[[=XML(set_unfollow_url)]]";
+  let post_meow_url = "[[=XML(post_meow_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]
