@@ -16,7 +16,6 @@ let init = (app) => {
         searching: false,
         row_len: 0,
         content: "",
-        debug: "debug"
         // content: [],
     };    
     
@@ -148,15 +147,18 @@ let init = (app) => {
     app.post_meow = function (post_content) {
         console.log('MEOW POST')
 
-        axios.post(post_meow_url,
-        {
-            content: post_content
-        }
-        ).then(function (response) {
-            console.log('in post');
+        if (app.data.content.length >= 1) {
+            axios.post(post_meow_url,
+            {
+                post_content: post_content
+            }
+            ).then(function (response) {
+                console.log('Posting:', app.data.content);
 
-            app.data.content = response.data.content;
-        });
+                // app.data.content = response.data.post_content;
+            });
+        }
+
         // To-Do:
         // Want to do a post-request
         // storing username, timestamp,

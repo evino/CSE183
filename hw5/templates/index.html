@@ -17,11 +17,11 @@
     <div class="column">
       <!-- Feed.  -->
       <div class="field">
-        <textarea class="textarea" placeholder="What's on your mind?" rows="2"></textarea>
+        <textarea class="textarea" placeholder="What's on your mind?" v-model="content" rows="2"></textarea>
       </div>
       <div class="field">
         <div class="control">
-          <button class="button is-link" @click="post_meow(debug)">
+          <button class="button is-link" @click="post_meow(content)">
             Publish!
           </button>
         </div>

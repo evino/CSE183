@@ -32,7 +32,7 @@ from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
-from .models import get_username, get_user_id
+from .models import get_username, get_user_id, get_time
 
 url_signer = URLSigner(session)
 
@@ -127,9 +127,11 @@ def search():
 @action.uses(db, auth.user, url_signer.verify())
 def post_meow():
     print('post_meow controller called')
-    print('request:', request)
-    req = request.json['id']
-    print('ID:', req)
-    db.meow.insert
+    print('request:', request.params)
+    post_content = request.json['post_content']
+    print('cont:', post_content)
+    print(get_user_id())
+    db.meow.insert(author=get_user_id(), timestamp=get_time(), content=post_content)
+    # db.meow.insert
 
     return "ok"
