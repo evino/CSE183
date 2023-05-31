@@ -156,8 +156,9 @@ let init = (app) => {
                 console.log('Posting:', app.data.content);
 
                 // Clear the text box
-                app.data.recent_meows.push(app.data.content)
+                // app.data.recent_meows.push(app.data.content)
                 app.data.content = "";
+                app.get_posts();
 
                 // app.data.content = response.data.post_content;
             });
@@ -169,6 +170,18 @@ let init = (app) => {
         // and content in DB, while also
         // displaying on page.
 
+    }
+
+    app.get_posts = function () {
+        console.log('In get post');
+        axios.get(get_posts_url).then(function (response) {
+            console.log('db', response.rows)
+
+            for (post in response.rows) {
+                console.log(post)
+            }
+            // app.data.recent_meows = result.rows;
+        });
     }
 
 
@@ -183,6 +196,7 @@ let init = (app) => {
         search: app.search,
         clear_search: app.clear_search,
         post_meow: app.post_meow,
+        get_posts: app.get_posts,
     };
 
     // This creates the Vue instance.
@@ -194,10 +208,11 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        console.log("Top of init()")
+        console.log("Top of init()");
         // app.search()
-        app.get_users()
-        app.get_following()
+        app.get_users();
+        app.get_following();
+        console.log('recent meows:', app.get_posts());
         // app.data.foll = response.data.following
         // console.log('folling ' + app.data.foll)
         // Put here any initialization code.

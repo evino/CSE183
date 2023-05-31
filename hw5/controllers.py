@@ -51,6 +51,7 @@ def index():
         set_follow_url=URL('set_follow', signer=url_signer),
         set_unfollow_url=URL('set_unfollow', signer=url_signer),
         post_meow_url=URL('post_meow', signer=url_signer),
+        get_posts_url=URL('get_posts', signer=url_signer)
     )
 
 @action("get_users")
@@ -135,3 +136,12 @@ def post_meow():
     # db.meow.insert
 
     return "ok"
+
+
+@action("get_posts")
+@action.uses(db, auth.user, url_signer.verify())
+def get_posts():
+    print('post controller calls')
+    rows = db(db.meow).select().as_list()
+    print(rows)
+    return dict(rows=rows)
