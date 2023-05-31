@@ -16,7 +16,7 @@ let init = (app) => {
         searching: false,
         row_len: 0,
         content: "",
-        // content: [],
+        posts: [],
     };    
     
     app.enumerate = (a) => {
@@ -154,6 +154,9 @@ let init = (app) => {
             }
             ).then(function (response) {
                 console.log('Posting:', app.data.content);
+
+                // Clear the text box
+                app.data.content = "";
 
                 // app.data.content = response.data.post_content;
             });

@@ -126,11 +126,11 @@ def search():
 @action("post_meow", method="POST")
 @action.uses(db, auth.user, url_signer.verify())
 def post_meow():
-    print('post_meow controller called')
-    print('request:', request.params)
+    # print('post_meow controller called')
+    # print('request:', request.params)
     post_content = request.json['post_content']
-    print('cont:', post_content)
-    print(get_user_id())
+    # print('cont:', post_content)
+    # print(get_user_id())
     db.meow.insert(author=get_user_id(), timestamp=get_time(), content=post_content)
     # db.meow.insert
 
