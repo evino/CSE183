@@ -175,11 +175,13 @@ let init = (app) => {
     app.get_posts = function () {
         console.log('In get post');
         axios.get(get_posts_url).then(function (response) {
-            console.log('db', response.rows)
+            console.log('Rows:', response.data.rows)
 
-            for (post in response.rows) {
-                console.log(post)
-            }
+            app.data.recent_meows = response.data.rows;
+
+            // for (post in response.rows) {
+            //     console.log(post)
+            // }
             // app.data.recent_meows = result.rows;
         });
     }
@@ -212,7 +214,8 @@ let init = (app) => {
         // app.search()
         app.get_users();
         app.get_following();
-        console.log('recent meows:', app.get_posts());
+        app.get_posts();
+        console.log('recent meows:', app.data.recent_meows);
         // app.data.foll = response.data.following
         // console.log('folling ' + app.data.foll)
         // Put here any initialization code.
