@@ -16,7 +16,7 @@ let init = (app) => {
         searching: false,
         row_len: 0,
         content: "",
-        posts: [],
+        recent_meows: [],
     };    
     
     app.enumerate = (a) => {
@@ -156,6 +156,7 @@ let init = (app) => {
                 console.log('Posting:', app.data.content);
 
                 // Clear the text box
+                app.data.recent_meows.push(app.data.content)
                 app.data.content = "";
 
                 // app.data.content = response.data.post_content;
