@@ -36,6 +36,7 @@ db.define_table(
 
 db.commit()
 
+
 db.define_table(
     'meow',
     # Field('author', 'reference auth_user', default=get_user_id),
@@ -46,6 +47,10 @@ db.define_table(
     # Field('author', 'reference auth_user', default=get_user_id),
     # Field('timestamp'),
 )
+
+
+# db(db.meow).delete()
+
 
 db.commit()
 

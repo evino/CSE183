@@ -141,7 +141,25 @@ def post_meow():
 @action("get_posts")
 @action.uses(db, auth.user, url_signer.verify())
 def get_posts():
-    print('post controller calls')
-    rows = db(db.meow).select().as_list()
-    print(rows)
+    # print('type:', feed_type)
+    # if (feed_type == 'recent')
+    print('params:', request.params)
+    feed_type = request.params['feed_type']  # Feed type
+    is_following_anyone = request.params['is_following_anyone']
+    # follow_list = request.params['follow_list[]']  # List of followed users
+    # print('follow list:', follow_list)
+
+    rows = db(db.meow).select().as_list()  # Get all meows in a list
+
+    if (feed_type == "Your Feed"):
+        if (is_following_anyone is False):
+            rows = rows[-20:]  # Get up to the last 20 Meows in list
+        else:
+            rows = db(db.meow.author == db.follow.following_id and get_user_id() == db.follow.follower_id).select.as_list()
+
+
+    # print('post controller calls')
+    # rows = db(db.meow).select().as_list()
+    for row in rows:
+        print("DEBUG:", row)
     return dict(rows=rows)

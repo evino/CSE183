@@ -13,10 +13,12 @@ let init = (app) => {
         results: [],
         rows: [],
         following: [],
+        is_following_anyone: false,  // False if user follows no one
         searching: false,
         row_len: 0,
         content: "",
-        recent_meows: [],
+        meows: [],
+        feed_type: "",
     };    
     
     app.enumerate = (a) => {
@@ -73,6 +75,7 @@ let init = (app) => {
                 // console.log('in post');
                 // console.log('Now adding ' + row_id + ' to following_list');
                 app.get_following()
+                app.data.is_follow = true;
                 // console.log('now: ' + app.data.following)
                 
                 // console.log(response);
@@ -172,19 +175,43 @@ let init = (app) => {
 
     }
 
+    // app.get_posts = function () {
+    //     console.log('In get post');
+    //     axios.get(get_posts_url).then(function (response) {
+    //         console.log('Rows:', response.data.rows)
+
+    //         if (app.data.recent_meows.length == 5) {
+    //             console.log('before:', app.data.recent_meows);
+    //             app.data.recent_meows.shift();
+    //             console.log('after:', app.data.recent_meows)
+
+    //             app.data.rows.push(response.data.rows[response.data.rows.length - 1]);
+    //         } else{
+    //             app.data.recent_meows = response.data.rows;
+    //         }
+    //     });
+    // }
+
+
     app.get_posts = function () {
         console.log('In get post');
-        axios.get(get_posts_url).then(function (response) {
-            console.log('Rows:', response.data.rows)
+        app.data.feed_type = 'recent';
+        console.log(app.data.feed_type)
+        console.log('Following', app.data.following)
 
-            app.data.recent_meows = response.data.rows;
 
-            // for (post in response.rows) {
-            //     console.log(post)
-            // }
-            // app.data.recent_meows = result.rows;
+        axios.get(get_posts_url, {
+            params: { feed_type: app.data.feed_type, is_following_anyone: app.data.is_following_anyone}
+        })
+            .then(function (response) {
+                // response.feed_type = app.data.feed_type;
+                // console.log('feed', response.feed_type)
+                console.log('Rows:', response.data.rows)
+                app.data.meows = response.rows
         });
     }
+
+
 
 
     // This contains all the methods.
@@ -214,7 +241,7 @@ let init = (app) => {
         // app.search()
         app.get_users();
         app.get_following();
-        app.get_posts();
+        // app.get_posts();
         console.log('recent meows:', app.data.recent_meows);
         // app.data.foll = response.data.following
         // console.log('folling ' + app.data.foll)
