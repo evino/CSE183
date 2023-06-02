@@ -13,7 +13,6 @@ let init = (app) => {
         results: [],
         rows: [],
         following: [],
-        is_following_anyone: false,  // False if user follows no one
         searching: false,
         row_len: 0,
         content: "",
@@ -75,7 +74,6 @@ let init = (app) => {
                 // console.log('in post');
                 // console.log('Now adding ' + row_id + ' to following_list');
                 app.get_following()
-                app.data.is_follow = true;
                 // console.log('now: ' + app.data.following)
                 
                 // console.log(response);
@@ -195,13 +193,13 @@ let init = (app) => {
 
     app.get_posts = function () {
         console.log('In get post');
-        app.data.feed_type = 'recent';
+        app.data.feed_type = 'Your Feed';
         console.log(app.data.feed_type)
         console.log('Following', app.data.following)
 
 
         axios.get(get_posts_url, {
-            params: { feed_type: app.data.feed_type, is_following_anyone: app.data.is_following_anyone}
+            params: { feed_type: app.data.feed_type}
         })
             .then(function (response) {
                 // response.feed_type = app.data.feed_type;

@@ -145,17 +145,27 @@ def get_posts():
     # if (feed_type == 'recent')
     print('params:', request.params)
     feed_type = request.params['feed_type']  # Feed type
-    is_following_anyone = request.params['is_following_anyone']
     # follow_list = request.params['follow_list[]']  # List of followed users
     # print('follow list:', follow_list)
 
-    rows = db(db.meow).select().as_list()  # Get all meows in a list
+    # rows = db(db.meow).select().as_list()  # Get all meows in a list
+    rows = []
+    following_list = db(db.follow.follower_id == get_user_id()).select().as_list()
 
     if (feed_type == "Your Feed"):
-        if (is_following_anyone is False):
+        if (len(following_list) == 0):
+            print('Not following anyone')
+            rows = db(db.meow).select().as_list()
             rows = rows[-20:]  # Get up to the last 20 Meows in list
         else:
-            rows = db(db.meow.author == db.follow.following_id and get_user_id() == db.follow.follower_id).select.as_list()
+            print('FOLLOWERS')
+            print(following_list)
+            for following in following_list:
+                # print(following['following_id'])
+                # print((db(db.meow.author == following['following_id']).select().as_list()))
+                rows.append(db(db.meow.author == following['following_id']).select().as_list())
+            # db(db.meow.author == ()
+            # rows = db(db.meow.author == db.follow.following_id and (get_user_id() == db.follow.follower_id) ).select().as_list()
 
 
     # print('post controller calls')
