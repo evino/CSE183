@@ -156,10 +156,10 @@ def get_posts():
     meows = []
     following_list = db(db.follow.follower_id == get_user_id()).select().as_list()
 
-    if (feed_type == "Your Feed"):
+    if (feed_type == "Your Feed" or feed_type == "Default"):
         if (len(following_list) == 0):
             print('Not following anyone')
-            rows = db(db.meow).select().as_list()
+            meows = db(db.meow).select().as_list()
         else:
             print('FOLLOWERS')
             print(following_list)
@@ -168,7 +168,7 @@ def get_posts():
                 # print((db(db.meow.author == following['following_id']).select().as_list()))
                 # rows.append(db(db.meow.author == following['following_id']).select().as_list())
                 post = db(db.meow.author == following['following_id']).select().as_list()
-                print(post)
+                print('db',post)
                 if len(post) > 0:
                     meows += post
             # db(db.meow.author == ()

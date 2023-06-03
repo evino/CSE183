@@ -241,7 +241,8 @@ let init = (app) => {
         // app.search()
         app.get_users();
         app.get_following();
-        app.get_posts('Your Feed');
+        app.get_posts(app.data.feed_type);
+        console.log(app.data.feed_type)
         console.log('recent meows:', app.data.recent_meows);
         // app.data.foll = response.data.following
         // console.log('folling ' + app.data.foll)
