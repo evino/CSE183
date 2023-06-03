@@ -191,22 +191,23 @@ let init = (app) => {
     // }
 
 
-    app.get_posts = function () {
-        console.log('In get post');
+    app.get_posts = function (feed_type) {
+        console.log('In get post, Feed type:', feed_type);
         // app.data.feed_type = 'Your Feed';
-        app.data.feed_type = 'Your Meows';
-        console.log(app.data.feed_type)
+        // app.data.feed_type = 'Your Meows';
+        // console.log(app.data.feed_type)
         console.log('Following', app.data.following)
 
 
         axios.get(get_posts_url, {
-            params: { feed_type: app.data.feed_type}
+            params: { feed_type:feed_type}
         })
             .then(function (response) {
                 // response.feed_type = app.data.feed_type;
                 // console.log('feed', response.feed_type)
-                console.log('Rows:', response.data.rows)
-                app.data.meows = response.rows
+                // console.log('Meows:', response.data.meows)
+                app.data.meows = response.data.meows
+                console.log('meows:', app.data.meows);
         });
     }
 
@@ -240,7 +241,7 @@ let init = (app) => {
         // app.search()
         app.get_users();
         app.get_following();
-        // app.get_posts();
+        app.get_posts('Your Feed');
         console.log('recent meows:', app.data.recent_meows);
         // app.data.foll = response.data.following
         // console.log('folling ' + app.data.foll)

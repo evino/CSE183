@@ -153,7 +153,7 @@ def get_posts():
     # print('follow list:', follow_list)
 
     # rows = db(db.meow).select().as_list()  # Get all meows in a list
-    rows = []
+    meows = []
     following_list = db(db.follow.follower_id == get_user_id()).select().as_list()
 
     if (feed_type == "Your Feed"):
@@ -170,15 +170,15 @@ def get_posts():
                 post = db(db.meow.author == following['following_id']).select().as_list()
                 print(post)
                 if len(post) > 0:
-                    rows += post
+                    meows += post
             # db(db.meow.author == ()
             # rows = db(db.meow.author == db.follow.following_id and (get_user_id() == db.follow.follower_id) ).select().as_list()
     elif (feed_type == "Your Meows"):
         print("your meows")
         post = db(db.meow.author == get_user_id()).select().as_list()
-        rows += post
-    elif (feed_type == "Recent"):
-        rows = db(db.meow).select.as_list()
+        meows += post
+    elif (feed_type == "Recent Meows"):
+        meows = db(db.meow).select().as_list()
 
     # TODO: Get meows only from person that you follow
     # Need following_id. ensure following.
@@ -186,10 +186,10 @@ def get_posts():
 
     # print('post controller calls')
     # rows = db(db.meow).select().as_list()
-    print('ROWS', rows)
+    print('MEOWS', meows)
 
-    rows = rows[-20:]  # Get up to the last 20 Meows in list
+    meows = meows[-20:]  # Get up to the last 20 Meows in list
 
-    for row in rows:
-        print("DEBUG:", row)
-    return dict(rows=rows)
+    for meow in meows:
+        print("DEBUG:", meow)
+    return dict(meows=meows)
