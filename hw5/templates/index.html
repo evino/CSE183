@@ -110,7 +110,24 @@
     </div>
 
     <div class="column is-one-third has-background-light">
-      
+
+      <!-- TODO: ADD FEED_TYPE BUTTONS HERE -->
+      <button class="button is-outlined" @click="set_unfollow(r['id'])">
+        <span>Your Feed</span>
+      </button>
+
+      <button class="button is-outlined" @click="set_unfollow(r['id'])">
+        <span>Your Meows</span>
+      </button>
+
+      <button class="button is-outlined" @click="set_unfollow(r['id'])">
+        <span>Recent Meows</span>
+      </button>
+
+
+
+
+
       <div class="field">
         <p class="control has-icons-right">
           <input class="input" type="text" placeholder="Search users" v-model="query" @keyup="search">

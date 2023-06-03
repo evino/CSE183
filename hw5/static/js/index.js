@@ -17,7 +17,7 @@ let init = (app) => {
         row_len: 0,
         content: "",
         meows: [],
-        feed_type: "",
+        feed_type: "Your Feed",
     };    
     
     app.enumerate = (a) => {
@@ -193,7 +193,8 @@ let init = (app) => {
 
     app.get_posts = function () {
         console.log('In get post');
-        app.data.feed_type = 'Your Feed';
+        // app.data.feed_type = 'Your Feed';
+        app.data.feed_type = 'Your Meows';
         console.log(app.data.feed_type)
         console.log('Following', app.data.following)
 
