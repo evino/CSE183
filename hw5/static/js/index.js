@@ -18,6 +18,7 @@ let init = (app) => {
         content: "",
         meows: [],
         feed_type: "Your Feed",
+        username: "",
     };    
     
     app.enumerate = (a) => {
@@ -192,27 +193,14 @@ let init = (app) => {
 
 
     app.get_posts = function (feed_type) {
-        console.log('In get post, Feed type:', feed_type);
-        // app.data.feed_type = 'Your Feed';
-        // app.data.feed_type = 'Your Meows';
-        // console.log(app.data.feed_type)
-        console.log('Following', app.data.following)
-
-
         axios.get(get_posts_url, {
             params: {feed_type: feed_type}
         })
             .then(function (response) {
-                // response.feed_type = app.data.feed_type;
-                // console.log('feed', response.feed_type)
-                // console.log('Meows:', response.data.meows)
-                app.data.feed_type = response.data.feed_type;
-                app.data.meows = response.data.meows
-                console.log('meows:', app.data.meows);
+                app.data.feed_type = feed_type;
+                app.data.meows = response.data.meows;
         });
     }
-
-
 
 
     // This contains all the methods.

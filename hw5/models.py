@@ -12,7 +12,7 @@ from pydal.validators import *
 def get_user_email():
     return auth.current_user.get('email') if auth.current_user else None
 
-def get_username():
+def get_user_name():
     return auth.current_user.get('username') if auth.current_user else None
 
 def get_user_id():
@@ -39,13 +39,10 @@ db.commit()
 
 db.define_table(
     'meow',
-    # Field('author', 'reference auth_user', default=get_user_id),
-    # Field('timestamp'),
     Field('author', 'reference auth_user', default=get_user_id),
+    Field('uname', requires=IS_NOT_EMPTY()),
     Field('timestamp', requires=IS_NOT_EMPTY()),
-    Field('content', requires=IS_NOT_EMPTY())
-    # Field('author', 'reference auth_user', default=get_user_id),
-    # Field('timestamp'),
+    Field('content', requires=IS_NOT_EMPTY()),
 )
 
 

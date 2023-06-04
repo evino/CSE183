@@ -34,12 +34,16 @@
                 <span class="icon is-small">
                   <i class="fa fa-user"></i>
                 </span>
-                <span class="ml-2">{{meow['author']}}</span>
+                <span class="ml-2">
+                  {{meow['uname']}}
+                  <!-- {{id = meow['author']
+                  get_username(id) }} -->
+                </span>
               </a>
             </div>
             <div class="level-right">
               <span class="level-item">
-                One minute ago
+                {{meow['timestamp']}}
               </span>
             </div>
           </nav>
@@ -67,7 +71,7 @@
 
 
      
-      <div class="box">
+      <!-- <div class="box">
         <nav class="level is-mobile">
           <div class="level-left">
             <a class="level-item" aria-label="reply">
@@ -101,7 +105,7 @@
             </a>
           </div>
         </nav>
-      </div>
+      </div> -->
    
    
 
