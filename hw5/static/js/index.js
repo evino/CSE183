@@ -159,7 +159,7 @@ let init = (app) => {
                 // Clear the text box
                 // app.data.recent_meows.push(app.data.content)
                 app.data.content = "";
-                app.get_posts();
+                app.get_posts(app.data.feed_type);
 
                 // app.data.content = response.data.post_content;
             });
@@ -200,12 +200,13 @@ let init = (app) => {
 
 
         axios.get(get_posts_url, {
-            params: { feed_type:feed_type}
+            params: {feed_type: feed_type}
         })
             .then(function (response) {
                 // response.feed_type = app.data.feed_type;
                 // console.log('feed', response.feed_type)
                 // console.log('Meows:', response.data.meows)
+                app.data.feed_type = response.data.feed_type;
                 app.data.meows = response.data.meows
                 console.log('meows:', app.data.meows);
         });
@@ -242,6 +243,7 @@ let init = (app) => {
         app.get_users();
         app.get_following();
         app.get_posts(app.data.feed_type);
+        // app.get_posts("Your Feed");
         console.log(app.data.feed_type)
         console.log('recent meows:', app.data.recent_meows);
         // app.data.foll = response.data.following

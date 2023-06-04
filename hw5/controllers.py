@@ -143,10 +143,15 @@ def post_meow():
 def get_posts():
     # print('type:', feed_type)
     # if (feed_type == 'recent')
-    # print('params:', request.params)
-
-
-    feed_type = request.params['feed_type']  # Feed type
+    print('params:', request.params)
+    feed_type = request.params['feed_type']
+    # req = request.params
+    # print(req)
+    # if (len(req) == 0):
+    #     feed_type = "Your Feed"
+    # else:
+    #     feed_type = req['feed_type']
+    # feed_type = request.params['feed_type']
 
 
     # follow_list = request.params['follow_list[]']  # List of followed users
@@ -189,7 +194,8 @@ def get_posts():
     print('MEOWS', meows)
 
     meows = meows[-20:]  # Get up to the last 20 Meows in list
+    meows.reverse()  # Reverse to get most recent at top
 
     for meow in meows:
         print("DEBUG:", meow)
-    return dict(meows=meows)
+    return dict(meows=meows, feed_type=feed_type)
